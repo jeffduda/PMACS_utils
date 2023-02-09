@@ -82,8 +82,12 @@ for i in `ls -d ${idir}/*`; do
             echo "module load python/3.9" >> ${job}
         fi
 
-        # Run the command required
-        echo "python my_app.py ${i}" >> ${job}
+        # Collect any input files, etc here.
+
+        # Run the command required for this dir/sub
+        # Can easily have multiple commands here if needed
+        echo "python /path/to/curator.py classify --input_dir ${i} --ouput_dir ${out_dir} --use-dicom" >> ${job}
+        chmod u+x ${job}
 
         if [[ "${run}" == "bsub" ]]; then
             bsub -q ${queue} < ${job}
