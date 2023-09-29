@@ -89,7 +89,7 @@ for i in `ls -d ${idir}/*.zip`; do
         # Run the command required for this dir/sub
         # Can easily have multiple commands here if needed
         #echo "python /path/to/curator.py classify --input_dir ${i} --ouput_dir ${out_dir} --use-dicom" >> ${job}
-        echo "sh /home/cbeeche/beeche_projects/vision/scripts/script_zipper.sh ${i}" >> ${job}
+        echo "sh /path/to/script_zipper.sh ${i}" >> ${job}
         chmod u+x ${job}
 
         if [[ "${run}" == "bsub" ]]; then
