@@ -67,6 +67,7 @@ for i in `ls -d ${idir}/*.zip`; do
         fi
     fi
 
+    # If creating jobs to run on the queue
     if [[ ${runsub} == 1 ]]; then 
 
         mkdir -p ${out_dir}
@@ -91,6 +92,7 @@ for i in `ls -d ${idir}/*.zip`; do
         #echo "python /path/to/curator.py classify --input_dir ${i} --ouput_dir ${out_dir} --use-dicom" >> ${job}
         echo "sh /path/to/script_zipper.sh ${i}" >> ${job}
         chmod u+x ${job}
+
 
         if [[ "${run}" == "bsub" ]]; then
             bsub -q ${queue} < ${job}
