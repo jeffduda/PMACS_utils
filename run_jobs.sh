@@ -49,10 +49,10 @@ if [[ "${run}" != "run" ]]; then
     module load python/3.9
 fi
 
+# May need to change this base on how inputs are stored
+for i in `ls -d ${idir}/*.zip`; do
 
-for i in `ls -d ${idir}/*`; do
-
-    sub=`basename $i`
+    sub=`basename $i .zip`
     out_dir="${odir}/${sub}"
     echo $out_dir
 
@@ -79,14 +79,17 @@ for i in `ls -d ${idir}/*`; do
             echo "#BSUB -J my_app_${sub}" >> ${job}
             echo "#BSUB -o ${out_dir}/log_${sub}.out" >> ${job}
             echo "#BSUB -e ${out_dir}/log_${sub}.err" >> ${job}
-            echo "module load python/3.9" >> ${job}
+
+            # Load in required modules here
+            echo "module load mpich/3.1" >> ${job}
         fi
 
         # Collect any input files, etc here.
 
         # Run the command required for this dir/sub
         # Can easily have multiple commands here if needed
-        echo "python /path/to/curator.py classify --input_dir ${i} --ouput_dir ${out_dir} --use-dicom" >> ${job}
+        #echo "python /path/to/curator.py classify --input_dir ${i} --ouput_dir ${out_dir} --use-dicom" >> ${job}
+        echo "sh /home/cbeeche/beeche_projects/vision/scripts/script_zipper.sh ${i}" >> ${job}
         chmod u+x ${job}
 
         if [[ "${run}" == "bsub" ]]; then
